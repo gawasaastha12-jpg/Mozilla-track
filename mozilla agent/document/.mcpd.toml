@@ -1,0 +1,51 @@
+# .mcpd.toml — MCP server configuration for Know Your Docs
+#
+# This file defines the MCP servers your agent can access.
+# mcpd manages their lifecycle and exposes them as HTTP endpoints.
+#
+# Start the daemon: mcpd daemon --dev --log-level=DEBUG
+# API docs: http://localhost:8090/docs
+
+# ------------------------------------------------------------------
+# LOCAL RAG — your private document search
+# ------------------------------------------------------------------
+# This runs the local MCP server as a uv tool. Install it once with:
+#   uv tool install --editable . --force
+# Keep the pinned version here in sync with `pyproject.toml`.
+[[servers]]
+name = "rag"
+package = "uvx::rag-mcp-server@0.1.0"
+tools = ["search_docs"]
+
+# ------------------------------------------------------------------
+# ADD MORE SERVERS BELOW
+# ------------------------------------------------------------------
+# Recommended no-key web search for the hackathon:
+# Install it once with:
+#   uv tool install --editable ./tools/ddgs-mcp-server --force
+#
+[[servers]]
+name = "ddgs"
+package = "uvx::ddgs-mcp-server@0.1.0"
+tools = [
+  "search_text",
+  "search_news",
+  "search_images",
+  "search_videos",
+  "search_books",
+  "extract_content",
+]
+#
+# Other examples:
+#
+# [[servers]]
+# name = "filesystem"
+# package = "npx::@modelcontextprotocol/server-filesystem"
+# args = ["./corpus"]
+# tools = ["read_file", "list_directory"]
+#
+# [[servers]]
+# name = "brave-search"
+# package = "uvx::mcp-server-brave-search"
+# tools = ["brave_web_search"]
+# # Set BRAVE_API_KEY in secrets.dev.toml

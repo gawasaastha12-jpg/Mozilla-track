@@ -1,0 +1,23 @@
+[project]
+name = "rag-mcp-server"
+version = "0.1.0"
+description = "Hackathon starter kit: local RAG + MCP + tinyagent"
+requires-python = ">=3.11"
+dependencies = [
+    "requests>=2.31.0",
+    "numpy>=1.26.0",
+    "pyyaml>=6.0",
+    "mcpd>=0.1.0",
+    "mozilla-ai-tinyagent>=0.1.0",
+    "mcp>=1.0.0",
+]
+
+[project.scripts]
+rag-mcp-server = "scripts.rag_mcp_server:sync_main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["agent", "scripts", "eval"]

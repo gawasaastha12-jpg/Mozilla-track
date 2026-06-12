@@ -1,0 +1,19 @@
+# encoderfile.yml — Build config for the embedding model
+#
+# First export the model to ONNX:
+#   pip install optimum[onnx]
+#   optimum-cli export onnx \
+#     --model sentence-transformers/all-MiniLM-L6-v2 \
+#     --task feature-extraction \
+#     ./sentence-model
+#
+# Then build the encoderfile:
+#   encoderfile build -f encoderfile.yml
+#
+# The output binary will be at ./build/sentence-model.encoderfile
+
+encoderfile:
+  name: sentence-model
+  path: ./sentence-model
+  model_type: token_embeddings
+  output_path: ./build/sentence-model.encoderfile

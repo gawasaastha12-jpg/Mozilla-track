@@ -1,0 +1,1 @@
+"""DDGS MCP wrapper package."""

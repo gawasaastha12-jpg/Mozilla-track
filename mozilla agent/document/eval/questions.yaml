@@ -1,0 +1,75 @@
+# Evaluation Questions for Know Your Docs
+#
+# Add your test questions here. Each question has:
+#   - query: the question to ask the agent
+#   - category: local_only | external_only | hybrid
+#   - expected_source: which tool(s) should be used
+#   - expected_keywords: key terms that should appear in a correct answer
+#
+# These are pre-filled for the sample corpus (payments service).
+# Replace with your own when you swap the corpus.
+
+questions:
+
+  # --- LOCAL-ONLY: answerable purely from internal docs ---
+
+  - query: "What is the maximum number of retry attempts for failed payments?"
+    category: local_only
+    expected_source: search_docs
+    expected_keywords: ["5", "4 retries", "exponential backoff"]
+
+  - query: "What is the idempotency key format for payment requests?"
+    category: local_only
+    expected_source: search_docs
+    expected_keywords: ["pay_", "merchant_id", "order_id", "timestamp"]
+
+  - query: "Who should I contact if the circuit breaker trips?"
+    category: local_only
+    expected_source: search_docs
+    expected_keywords: ["jordan", "payments-incidents", "Slack"]
+
+  - query: "What HTTP status codes are retryable?"
+    category: local_only
+    expected_source: search_docs
+    expected_keywords: ["429", "500", "502", "503"]
+
+  - query: "How do I issue a partial refund?"
+    category: local_only
+    expected_source: search_docs
+    expected_keywords: ["amount_cents", "POST", "/refund"]
+
+  # --- EXTERNAL-ONLY: requires info NOT in internal docs ---
+
+  - query: "What is Stripe's current API rate limit?"
+    category: external_only
+    expected_source: search_text
+    expected_keywords: ["Stripe", "rate limit"]
+
+  - query: "What is the current best practice for implementing idempotency keys in payment systems?"
+    category: external_only
+    expected_source: search_text
+    expected_keywords: ["idempotency", "UUID"]
+
+  - query: "What exponential backoff algorithm does AWS recommend?"
+    category: external_only
+    expected_source: search_text
+    expected_keywords: ["AWS", "backoff", "jitter"]
+
+  # --- HYBRID: needs both local and external sources ---
+
+  - query: "How does our retry policy compare to Stripe's recommended retry approach?"
+    category: hybrid
+    expected_source: [search_docs, search_text]
+    expected_keywords: ["exponential backoff", "jitter", "5 attempts"]
+
+  - query: "Our API returns 422 for declined cards. Is this consistent with industry standards?"
+    category: hybrid
+    expected_source: [search_docs, search_text]
+    expected_keywords: ["422", "card_declined", "validation"]
+
+  # --- NEGATIVE: agent should say "I don't know" ---
+
+  - query: "What is the company's vacation policy?"
+    category: negative
+    expected_source: none
+    expected_keywords: ["don't know", "not in", "no information"]
